@@ -63,6 +63,9 @@ let register_player (storage:state) (caller:key_hash) =
      
       if Map.mem caller init.reg_players then
         Current.failwith "Player already registered !";
+      if Current.amount () < params.bet + params.bet then
+        Current.failwith "Not enough money to participate !";
+
       let init = init.nb_players <- init.nb_players + 1 in
       let info = {deposit = params.bet ; round = 0p } in
       let init = init.reg_players <- Map.add caller info init.reg_players in
