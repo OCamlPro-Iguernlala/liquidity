@@ -259,6 +259,11 @@ let rec convert_type ?(parameter=false) env expr =
           with Exit -> Ttuple [convert_type env x; convert_type env y]
       end
 
+    | Prim(k, "pair", e1::((_::_::_) as l), _debug) ->
+      let e2 = Prim(k, "pair", l, _debug) in
+      let e = Prim(k, "pair", [e1; e2], _debug) in
+      convert_type ~parameter env e
+
     | Prim(_, "or", [x;y], _debug) ->
       begin match name with
         (* | None when not parameter -> Tor (convert_type env x, convert_type env y) *)
